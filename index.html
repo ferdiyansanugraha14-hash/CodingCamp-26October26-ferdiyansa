@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense &amp; Budget Visualizer</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="light">
+
+    <!-- ── Top Bar ── -->
+    <header class="top-bar">
+      <h1 class="app-title">💸 Budget Visualizer</h1>
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+        🌙
+      </button>
+    </header>
+
+    <main class="container">
+
+      <!-- ── Budget Summary ── -->
+      <section class="summary-grid">
+        <div class="summary-card">
+          <span class="summary-label">Monthly Budget</span>
+          <div class="budget-edit">
+            <span id="budget-display" class="summary-value">$1,000.00</span>
+            <button id="edit-budget-btn" class="btn-text" aria-label="Edit budget">✏️</button>
+          </div>
+          <div id="budget-input-row" class="budget-input-row hidden">
+            <input type="number" id="budget-input" class="input-field" min="1" placeholder="Enter budget" />
+            <button id="save-budget-btn" class="btn-primary btn-sm">Save</button>
+          </div>
+        </div>
+        <div class="summary-card accent-green">
+          <span class="summary-label">Remaining</span>
+          <span id="remaining" class="summary-value">$1,000.00</span>
+        </div>
+        <div class="summary-card accent-red">
+          <span class="summary-label">Total Spent</span>
+          <span id="total-spent" class="summary-value">$0.00</span>
+        </div>
+      </section>
+
+      <!-- ── Spending Limit Warning ── -->
+      <div id="warning-banner" class="warning-banner hidden" role="alert">
+        ⚠️ <strong>Warning:</strong> You have used <span id="warning-pct">0</span>% of your budget!
+      </div>
+
+      <!-- ── Main Grid: Form + Chart ── -->
+      <div class="main-grid">
+
+        <!-- ── Add Transaction Form ── -->
+        <section class="card">
+          <h2 class="card-title">Add Transaction</h2>
+          <form id="transaction-form" novalidate>
+            <div class="form-group">
+              <label for="item-name">Item Name</label>
+              <input
+                type="text"
+                id="item-name"
+                class="input-field"
+                placeholder="e.g. Lunch, Bus ticket…"
+                maxlength="60"
+              />
+              <span class="error-msg" id="name-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="amount">Amount ($)</label>
+              <input
+                type="number"
+                id="amount"
+                class="input-field"
+                placeholder="0.00"
+                min="0.01"
+                step="0.01"
+              />
+              <span class="error-msg" id="amount-error"></span>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" class="input-field">
+                <option value="">— Select category —</option>
+                <option value="Food">🍔 Food</option>
+                <option value="Transport">🚌 Transport</option>
+                <option value="Fun">🎉 Fun</option>
+              </select>
+              <span class="error-msg" id="category-error"></span>
+            </div>
+            <button type="submit" class="btn-primary btn-full">Add Transaction</button>
+          </form>
+        </section>
+
+        <!-- ── Pie Chart ── -->
+        <section class="card chart-card">
+          <h2 class="card-title">Spending by Category</h2>
+          <div class="chart-wrapper">
+            <canvas id="pie-chart" width="260" height="260" aria-label="Pie chart of spending by category"></canvas>
+          </div>
+          <div id="chart-legend" class="chart-legend"></div>
+          <p id="chart-empty" class="empty-hint">No data yet. Add a transaction!</p>
+        </section>
+
+      </div><!-- /.main-grid -->
+
+      <!-- ── Transaction List ── -->
+      <section class="card">
+        <div class="list-header">
+          <h2 class="card-title">Transactions</h2>
+          <div class="list-controls">
+            <label for="sort-select" class="sr-only">Sort by</label>
+            <select id="sort-select" class="input-field input-field--sm">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="amount-desc">Highest amount</option>
+              <option value="amount-asc">Lowest amount</option>
+              <option value="name-asc">Name A → Z</option>
+              <option value="name-desc">Name Z → A</option>
+            </select>
+          </div>
+        </div>
+
+        <ul id="transaction-list" class="transaction-list" aria-live="polite" aria-label="Transaction list"></ul>
+        <p id="list-empty" class="empty-hint">No transactions yet.</p>
+      </section>
+
+    </main>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
